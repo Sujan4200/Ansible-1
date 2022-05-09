@@ -2,15 +2,17 @@
 
 - hosts: all
   become: true
-  tasks:
+  pre_tasks:
     
   - name: install update (CentOS)
+    tags: always
     yum:
       update_only: yes
       update_cache: yes
     when: ansible_distribution == "CentOS"
 
   - name: install updates (Ubuntu)
+    tags: always
     apt:
       upgrade: dist
       update_cache: yes
@@ -20,6 +22,7 @@
   become: true
   tasks:
   - name: install java nodejs and apache package for Ubuntu
+    tags: apache, apache2 , nodejs, java . ubuntu
     apt: 
       name:
         - default-jdk 
@@ -29,6 +32,7 @@
     when: ansible_distribution == "Ubuntu"
 
   - name: install apache and php package for CentOS
+    tags: apache, centos, httpd
     yum:
       name:
         - httpd
@@ -40,7 +44,8 @@
   become: true
   tasks:
 
-  - name : install maria db(CentOS)
+  - name: install maria db(CentOS)
+    tags:  centos, db, mariadb
     yum:
       name: mariadb
       state: latest

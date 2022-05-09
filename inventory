@@ -1,9 +1,8 @@
 
-[web-server]
+[ web_servers]
 192.168.56.10
 
 
-[db_server]
- 
-192.168.57.10  
+[ db_server ]
+vagrant@192.168.57.10  
 

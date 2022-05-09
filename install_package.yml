@@ -7,13 +7,29 @@
   - name: update repository index
     apt:
       update_cache: yes
+    when: ansible_distribution == "Ubuntu"
 
-  - name: install java pacakage
+    
+  - name: update repository index
+    dnf:
+      update_cache: yes
+    when: ansible_distribution_version == "CentOS"
+
+
+  - name: install java nodejs and apache2 pacakage
     apt: 
-      name: default-jdk
+      name:
+        -  default-jdk
+        -  nodejs
+        -  apache2
       state: latest
+    when: ansible_distribution == "Ubuntu"
+      
 
-  - name : install nodejs
-    apt:
-      name: nodejs
-      state: latest
+  - name: install apache2 package 
+    dnf: 
+      name: httpd
+      state: latest 
+    when: ansible_distribution_version  == "CentOS"
+
+

@@ -30,7 +30,7 @@
         - apache2
       state: latest    
     when: ansible_distribution == "Ubuntu"
-
+  
   - name: install apache and php package for CentOS
     tags: apache, centos, httpd
     yum:
@@ -38,7 +38,16 @@
         - httpd
         - php
       state: latest   
-    when: ansible_distribution == "CentOS" 
+    when: ansible_distribution == "CentOS"
+
+  - name: copy html file into server
+    tags: apache, httpd 
+    copy: 
+      src: simple.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
     
 - hosts: db_server
   become: true
@@ -51,3 +60,11 @@
       state: latest
     when: ansible_distribution == "CentOS"
 
+  - name: copy html file into CentOS
+    tags: apache,httpd
+    copy:
+      src: simple.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644

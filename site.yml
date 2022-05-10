@@ -18,6 +18,49 @@
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
+- hosts: all
+  become: true
+  tasks: 
+  
+  - name: create a New User "Michael"
+    tags: always
+    user:
+      name: michael
+      group: root
+
+  - name: add ssh key for Michael
+    tags: always
+    authorized_key:
+      user: michael
+      key:  " ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBnc2jqSKe7AKPI5dofReT+B0ATXHcQpm122zUxs1jfa ansible "
+      
+  - name: add sudoers file for Michael
+    tags: always
+    copy: 
+      src: sudoer_michael
+      dest: /etc/sudoers.d/michael
+      owner: root
+      group: root
+      mode: 0440
+      
+
+- hosts: workstations
+  become: true
+  tasks: 
+
+  - name: install unzip
+    package: 
+      name: unzip
+
+  - name: install terraform
+    unarchive:
+      src: https://releases.hashicorp.com/terraform/1.1.9/terraform_1.1.9_linux_amd64.zip
+      dest: /usr/local/bin
+      remote_src: yes
+      mode: 0755
+      owner: root
+      group: root
+
 
 
 - hosts: web_servers
@@ -70,3 +113,12 @@
       owner: root
       group: root
       mode: 0644
+
+  - name: start httpd(CentOS)
+    tags: apache, CentOS,httpd
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    when: ansible_distribution == "CentOS"
+

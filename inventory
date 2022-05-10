@@ -1,7 +1,12 @@
 
 [ web_servers]
-192.168.56.10
+vagrant@192.168.56.10
 
 
 [ db_server ]
 vagrant@192.168.57.10 
+
+
+[workstations]
+
+192.168.31.243

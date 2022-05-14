@@ -32,7 +32,7 @@
     tags: always
     authorized_key:
       user: michael
-      key:  " ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBnc2jqSKe7AKPI5dofReT+B0ATXHcQpm122zUxs1jfa ansible "
+      key:  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBnc2jqSKe7AKPI5dofReT+B0ATXHcQpm122zUxs1jfa ansible"
       
   - name: add sudoers file for Michael
     tags: always
@@ -44,7 +44,7 @@
       mode: 0440
       
 
-- hosts: workstations
+- hosts: workstation
   become: true
   tasks: 
 

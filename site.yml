@@ -7,26 +7,22 @@
   - name: install update (CentOS)
     tags: always
     yum:
-      update_only: yes
+      
       update_cache: yes
+    changed_when: false 
     when: ansible_distribution == "CentOS"
 
   - name: install updates (Ubuntu)
     tags: always
     apt:
-      upgrade: dist
+      
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == "Ubuntu"
 
 - hosts: all
   become: true
   tasks: 
-  
-  - name: create a New User "Michael"
-    tags: always
-    user:
-      name: michael
-      group: root
 
   - name: add ssh key for Michael
     tags: always
@@ -34,15 +30,7 @@
       user: michael
       key:  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIehCgAjVeRZuy5FrBTKkGB0CG3nuFlw37mbPg84pb3M nik7@Alice"
       
-  - name: add sudoers file for Michael
-    tags: always
-    copy: 
-      src: sudoer_michael
-      dest: /etc/sudoers.d/michael
-      owner: root
-      group: root
-      mode: 0440
-      
+ 
 
 - hosts: workstation
   become: true

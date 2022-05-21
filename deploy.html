@@ -1,0 +1,15 @@
+---
+
+- hosts: web_servers
+  become: true 
+  tasks: 
+    - name: copy files to remote host ( Ubuntu )
+      copy:
+        src: dolpo/
+        dest: /var/www/html
+        owner: www-data
+        group: www-data 
+        mode: 0755
+
+       
+

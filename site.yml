@@ -20,93 +20,24 @@
     changed_when: false
     when: ansible_distribution == "Ubuntu"
 
-- hosts: all
-  become: true
-  tasks: 
-
-  - name: add ssh key for Michael
-    tags: always
-    authorized_key:
-      user: michael
-      key:  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIehCgAjVeRZuy5FrBTKkGB0CG3nuFlw37mbPg84pb3M nik7@Alice"
-      
- 
+- hosts: all 
+  become: true 
+  roles:
+    - base
 
 - hosts: workstation
   become: true
-  tasks: 
-
-  - name: install unzip
-    package: 
-      name: unzip
-
-  - name: install terraform
-    unarchive:
-      src: https://releases.hashicorp.com/terraform/1.1.9/terraform_1.1.9_linux_amd64.zip
-      dest: /usr/local/bin
-      remote_src: yes
-      mode: 0755
-      owner: root
-      group: root
-
-
+  roles: 
+    - workstation
 
 - hosts: web_servers
   become: true
-  tasks:
-  - name: install java nodejs and apache package for Ubuntu
-    tags: apache, apache2 , nodejs, java . ubuntu
-    apt: 
-      name:
-        - default-jdk 
-        - nodejs
-        - apache2
-      state: latest    
-    when: ansible_distribution == "Ubuntu"
-  
-  - name: install apache and php package for CentOS
-    tags: apache, centos, httpd
-    yum:
-      name:
-        - httpd
-        - php
-      state: latest   
-    when: ansible_distribution == "CentOS"
+  roles:
+    - web_servers
 
-  - name: copy html file into server
-    tags: apache, httpd 
-    copy: 
-      src: simple.html
-      dest: /var/www/html/index.html
-      owner: root
-      group: root
-      mode: 0644
-    
 - hosts: db_server
   become: true
-  tasks:
+  roles:
+    - db_server
 
-  - name: install maria db(CentOS)
-    tags:  centos, db, mariadb
-    yum:
-      name: mariadb
-      state: latest
-    when: ansible_distribution == "CentOS"
-
-  - name: copy html file into CentOS
-    tags: apache,httpd
-    copy:
-      src: simple.html
-      dest: /var/www/html/index.html
-      owner: root
-      group: root
-      mode: 0644
-
-  - name: start httpd(CentOS)
-    tags: apache, CentOS,httpd
-    service:
-      name: httpd
-      state: started
-      enabled: yes
-    when: ansible_distribution == "CentOS"
 

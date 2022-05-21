@@ -3,9 +3,8 @@
 [web_servers]
 vagrant@192.168.56.10
 
-
 [db_server]
 vagrant@192.168.57.10 
 
 [workstation]
- michael@192.168.1.18
+michael@192.168.31.243
